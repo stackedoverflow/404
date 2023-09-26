@@ -1,0 +1,59 @@
+I have a spring project with the following structure	1. Entity 
+			public class LeaveEventsData {
+				
+				@Id
+				String timeOffRequestID;
+				String associateOID;
+				int workerID;
+				String requestorName;
+				double totalQuantity;
+				String entryTypeCode; //leaveType
+				String entryStatusCode; //leaveStatus(Approved/Rejected)
+				LocalDate startDate;
+				String startTime;
+				LocalDate endDate;
+				String endTime;
+				
+					
+				}
+			
+			
+	2. Dto
+			public class LeaveEventsDto {
+				
+				String timeOffRequestID;
+				String associateOID;
+				int workerID;
+				String requestorName;
+				double totalQuantity;
+				String entryTypeCode; //leaveType
+				String entryStatusCode; //leaveStatus(Approved/Rejected)
+				LocalDate startDate;
+				String startTime;
+				LocalDate endDate;
+				String endTime;
+				
+			}
+	3. Dao
+			public List<LeaveEventsData> findByAssociateOIDAndEntryStatusCodeAndEntryTypeCode(String associateOid, String string,
+						String string2);
+			
+	4. Service
+			public Map<String, Double> getTotalSickLeaveQuantityByManager(String managerId); 
+			public Map<String,Double> getTotalCasualLeaveQuantityByManager(String managerId);
+			
+	5. Controller
+			//Pie Chart- sickLeaves in hrs
+			@GetMapping("/piechart/sick/{managerID}") //needed
+			public ResponseEntity<Map<String,Double>> getTotalSickLeaveQuantityByManager(@PathVariable String managerID){
+				return new ResponseEntity<>(service.getTotalSickLeaveQuantityByManager(managerID),HttpStatus.OK);
+			}
+			
+			//Pie Chart- casualLeaves in hrs
+			@GetMapping("/piechart/casual/{managerID}") //needed
+			public ResponseEntity<Map<String,Double>> getTotalCasualLeaveQuantityByManager(@PathVariable String managerID){
+				return new ResponseEntity<>(service.getTotalCasualLeaveQuantityByManager(managerID),HttpStatus.OK);
+			}
+			
+	
+Write the test case for the two service methods. 
