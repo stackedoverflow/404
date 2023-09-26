@@ -1,0 +1,94 @@
+To write test cases for the two service methods `getTotalSickLeaveQuantityByManager` and `getTotalCasualLeaveQuantityByManager`, you can use JUnit and Mockito. Here are examples of how to write test cases for these methods:
+
+First, let's assume you have a service class named `LeaveEventsService` with the two methods you mentioned:
+
+```java
+@Service
+public class LeaveEventsService {
+
+    @Autowired
+    private LeaveEventsDao leaveEventsDao;
+
+    public Map<String, Double> getTotalSickLeaveQuantityByManager(String managerId) {
+        // Implementation of getTotalSickLeaveQuantityByManager
+        // This method may use leaveEventsDao to retrieve and process data
+        // and return the result as a Map<String, Double>
+        return null; // Replace with actual implementation
+    }
+
+    public Map<String, Double> getTotalCasualLeaveQuantityByManager(String managerId) {
+        // Implementation of getTotalCasualLeaveQuantityByManager
+        // This method may use leaveEventsDao to retrieve and process data
+        // and return the result as a Map<String, Double>
+        return null; // Replace with actual implementation
+    }
+}
+```
+
+Now, let's write test cases for these service methods using JUnit and Mockito:
+
+```java
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+@RunWith(MockitoJUnitRunner.class)
+public class LeaveEventsServiceTest {
+
+    @InjectMocks
+    private LeaveEventsService leaveEventsService;
+
+    @Mock
+    private LeaveEventsDao leaveEventsDao;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void testGetTotalSickLeaveQuantityByManager() {
+        // Arrange
+        String managerId = "manager123";
+        Map<String, Double> expectedResults = new HashMap<>();
+        expectedResults.put("Category1", 10.0);
+        expectedResults.put("Category2", 20.0);
+
+        // Mock the behavior of leaveEventsDao to return data when called
+        when(leaveEventsDao.findByAssociateOIDAndEntryStatusCodeAndEntryTypeCode(managerId, "Approved", "SickLeave"))
+            .thenReturn(Arrays.asList(/* Add your LeaveEventsData objects here */));
+
+        // Act
+        Map<String, Double> results = leaveEventsService.getTotalSickLeaveQuantityByManager(managerId);
+
+        // Assert
+        assertEquals(expectedResults, results);
+    }
+
+    @Test
+    public void testGetTotalCasualLeaveQuantityByManager() {
+        // Arrange
+        String managerId = "manager456";
+        Map<String, Double> expectedResults = new HashMap<>();
+        expectedResults.put("Category3", 15.0);
+        expectedResults.put("Category4", 25.0);
+
+        // Mock the behavior of leaveEventsDao to return data when called
+        when(leaveEventsDao.findByAssociateOIDAndEntryStatusCodeAndEntryTypeCode(managerId, "Approved", "CasualLeave"))
+            .thenReturn(Arrays.asList(/* Add your LeaveEventsData objects here */));
+
+        // Act
+        Map<String, Double> results = leaveEventsService.getTotalCasualLeaveQuantityByManager(managerId);
+
+        // Assert
+        assertEquals(expectedResults, results);
+    }
+}
+```
+
+In these test cases:
+
+- We use `@RunWith(MockitoJUnitRunner.class)` and `@InjectMocks` to initialize the service and mock the `LeaveEventsDao`.
+- In each test case, we set up the necessary arrangements, including providing expected results and mocking the behavior of the `leaveEventsDao`.
+- We then call the respective service method (`getTotalSickLeaveQuantityByManager` and `getTotalCasualLeaveQuantityByManager`) and assert that the returned results match the expected results.
+
+Please replace the comments in the test cases with actual `LeaveEventsData` objects as needed for your specific test scenarios. Additionally, replace the `null` implementations in the service methods with your actual business logic for calculating leave quantities.
